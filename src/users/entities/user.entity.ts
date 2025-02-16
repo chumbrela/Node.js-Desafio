@@ -30,4 +30,7 @@ export class User {
 
   @Column({ type: 'varchar' })
   updatedBy: string;
+
+  @Column({ type: 'boolean', default: true })
+  isActive: boolean;
 }

@@ -1,18 +1,20 @@
 # Usa a imagem oficial do Node.js
-FROM node:20-alpine 
+FROM node:18-alpine
 
 # Define o diretório de trabalho dentro do container
 WORKDIR /app 
 
-# Copia os arquivos do projeto para o container
-COPY package.json package-lock.json ./
+# Copia apenas arquivos essenciais primeiro para otimizar cache
+COPY package*.json ./
+
+# Instala apenas dependências de produção (caso necessário)
 RUN npm install
 
-# Copia o restante do projeto
-COPY . .
+# Instala o NestJS CLI globalmente
+RUN npm install -g @nestjs/cli
 
-# Expõe a porta que o NestJS vai rodar
-EXPOSE 3000 
+# Agora copia o restante do projeto
+COPY . .
 
 # Comando para rodar a aplicação
 CMD ["npm", "run", "start"]

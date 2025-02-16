@@ -8,30 +8,36 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: mydatabase
+      POSTGRES_DB: mydatabase  # Nome do banco corrigido
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:  # Adiciona um healthcheck para garantir que o banco está pronto
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      retries: 5
+      timeout: 5s
 
   app:
     build: .
     container_name: my_nestjs_app
-    restart: always
+    restart: on-failure  # Evita loop infinito se houver erro
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy  # Aguarda PostgreSQL estar pronto
     environment:
       DB_HOST: postgres
       DB_PORT: 5432
       DB_USERNAME: postgres
       DB_PASSWORD: postgres
-      DB_NAME: mydatabase
+      DB_NAME: mydatabase  # Nome do banco corrigido
     ports:
       - "3000:3000"
     command: npm run start:dev
     volumes:
-      - .:/app
-      - /app/node_modules
+      - ./src:/app/src  # Mantém apenas o código sincronizado
+      - /app/node_modules  # Garante que node_modules do container não seja sobrescrito
 
 volumes:
   postgres_data:
