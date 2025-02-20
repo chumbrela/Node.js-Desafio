@@ -12,6 +12,9 @@ export class UserService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
+    const user = this.userRepository.create({
+      ...createUserDto,
+    })
     const existingUser = await this.userRepository.findOneBy({
       email: createUserDto.email,
     });
