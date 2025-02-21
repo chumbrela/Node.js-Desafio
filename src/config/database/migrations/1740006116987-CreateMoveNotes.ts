@@ -12,9 +12,12 @@ export class CreateMoveNotes1740006116987 implements MigrationInterface {
         rating integer NOT NULL,
         "user_id" uuid NOT NULL,
         created_at timestamp NOT NULL DEFAULT now(),
-        updated_at timestamp NOT NULL DEFAULT now(),
+        updated_at timestamp  NULL,
+        deleted_at timestamp  NULL,
         CONSTRAINT "movie_notes_pkey" PRIMARY KEY (id),
-        CONSTRAINT "movie_notes_userId_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id")
+        CONSTRAINT "movie_notes_userId_fkey" 
+            FOREIGN KEY ("user_id") REFERENCES "users"("id")
+            ON DELETE CASCADE
       )
     `);
   }
