@@ -1,7 +1,13 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
 
 export class CreateMovieTagsDto {
-    @IsNotEmpty()
-    @IsString()
-    name: string
+  @IsNotEmpty()
+  @IsString()
+  name: string;
+
+  @IsUUID()
+  noteId: string;
+
+  @IsUUID()
+  userId: string;
 }

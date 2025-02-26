@@ -1,12 +1,14 @@
+import { MovieTags } from '@/movie-tags/entities/movie-tags.entity';
 import {
   Column,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'movie_notes' })
 export class MovieNotes {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -20,7 +22,7 @@ export class MovieNotes {
   @Column({ type: 'int', nullable: false })
   rating: number;
 
-  @Column({ type: 'uuid', name: 'user_id' })
+  @Column({ name: 'user_id', type: 'uuid' })
   userId: string;
 
   @Column({
@@ -43,4 +45,7 @@ export class MovieNotes {
     name: 'deleted_at',
   })
   deletedAt: Date;
+
+  @OneToMany(() => MovieTags, (tag) => tag.note)
+  movieTags: MovieTags[];
 }

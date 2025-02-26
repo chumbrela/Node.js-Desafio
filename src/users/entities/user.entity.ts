@@ -1,5 +1,6 @@
+import { MovieTags } from '@/movie-tags/entities/movie-tags.entity';
 import { IsEmail } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'users' })
 export class User {
@@ -35,4 +36,7 @@ export class User {
 
   @Column({ type: 'boolean', default: true, name: 'is_active' })
   isActive: boolean;
+
+  @OneToMany(() => MovieTags, (tag) => tag.note)
+  movieTags: MovieTags[];
 }

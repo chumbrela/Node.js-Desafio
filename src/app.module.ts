@@ -5,6 +5,7 @@ import { UserModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { Module } from '@nestjs/common';
 import { MovieNotesModule } from './movie-notes/movie-notes.module';
+import { MovieTagsModule } from './movie-tags/movie-tags.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { MovieNotesModule } from './movie-notes/movie-notes.module';
     TypeOrmModule.forRoot(AppDataSource.options),
     UserModule,
     MovieNotesModule,
+    MovieTagsModule,
   ],
   controllers: [AppController],
   providers: [],

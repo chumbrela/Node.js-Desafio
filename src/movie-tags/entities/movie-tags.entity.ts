@@ -1,39 +1,42 @@
-import { Delete } from "@nestjs/common";
-import { Column, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { MovieNotes } from '@/movie-notes/entities/movie-notes.entity';
+import { User } from '@/users/entities/user.entity';
+import { Delete } from '@nestjs/common';
+import {
+  Column,
+  DeleteDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
-@Entity()
+@Entity({ name: 'movie_tags' })
 export class MovieTags {
-    @PrimaryGeneratedColumn('uuid')
-    id: string
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @Column({ 
-        type: 'varchar',
-        nullable: false,
-        name: 'note_id'
-    })
-    noteId: string
+  @ManyToOne(() => MovieNotes, (note) => note.movieTags)
+  note: MovieNotes;
 
-    @Column({
-        type: 'varchar',
-        nullable: false,
-        name: 'user_id'
-    })
-    userId: string
-    
-    @Column({ type: 'varchar', nullable: false })
-    name: string
+  @ManyToOne(() => User, (user) => user.movieTags)
+  user: User;
 
-    @UpdateDateColumn({
-        type: 'timestamp',
-        nullable: true,
-        name: 'updated_at',
-    })
-    updatedAt: Date
+  @Column({ type: 'varchar', nullable: false })
+  name: string;
 
-    @DeleteDateColumn({
-        type: 'timestamp',
-        nullable: true,
-        name: 'deleted_at',
-    })
-    deletedAt: Date
+  @UpdateDateColumn({
+    type: 'timestamp',
+    nullable: true,
+    name: 'updated_at',
+  })
+  updatedAt: Date;
+
+  @DeleteDateColumn({
+    type: 'timestamp',
+    nullable: true,
+    name: 'deleted_at',
+  })
+  deletedAt: Date;
 }

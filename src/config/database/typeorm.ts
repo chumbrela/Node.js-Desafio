@@ -1,7 +1,7 @@
 import { MovieNotes } from '@/movie-notes/entities/movie-notes.entity';
+import { MovieTags } from '@/movie-tags/entities/movie-tags.entity';
 import { User } from '@/users/entities/user.entity';
-import { join } from 'node:path';
-import 'reflect-metadata';
+import { join } from 'path';
 import { DataSource } from 'typeorm';
 
 export const AppDataSource = new DataSource({
@@ -11,7 +11,7 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_USERNAME || 'postgres',
   password: process.env.DB_PASSWORD || 'postgres',
   database: process.env.DB_NAME || 'mydatabase',
-  entities: [User, MovieNotes],
+  entities: [User, MovieNotes, MovieTags],
   migrations: [join(__dirname, 'migrations/*.ts')],
   synchronize: false,
   logging: true,
