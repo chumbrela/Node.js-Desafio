@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { Module } from '@nestjs/common';
 import { MovieNotesModule } from './movie-notes/movie-notes.module';
 import { MovieTagsModule } from './movie-tags/movie-tags.module';
+import { AuthService } from './auth/auth.service';
 
 @Module({
   imports: [
@@ -16,6 +17,6 @@ import { MovieTagsModule } from './movie-tags/movie-tags.module';
     MovieTagsModule,
   ],
   controllers: [AppController],
-  providers: [],
+  providers: [AuthService],
 })
 export class AppModule {}

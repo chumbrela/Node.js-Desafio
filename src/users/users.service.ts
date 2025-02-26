@@ -9,12 +9,16 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    private readonly hashPassword: (password: string) => Promise<string>,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
     const user = this.userRepository.save({
       ...createUserDto,
     });
+
+    const hashedPassword = await this.hashPassword(createUserDto.password);
+
     const existingUser = await this.userRepository.findOneBy({
       email: createUserDto.email,
     });
@@ -23,6 +27,9 @@ export class UserService {
       throw new ConflictException('A user with this email alread');
     }
 
-    return await this.userRepository.save(createUserDto);
+    return await this.userRepository.save({
+      ...createUserDto,
+      password: hashedPassword,
+    });
   }
 }
